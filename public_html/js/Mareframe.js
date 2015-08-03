@@ -1,3 +1,5 @@
+/* global h */
+
 ﻿var MareFrame = MareFrame || {};
 MareFrame.DST = MareFrame.DST || {};
 
@@ -17,47 +19,49 @@ MareFrame.DST.Handler = function () {
     	} else {
     		this.addNewModel();
     	}
-    }
+    };
+    
+    
 
     this.getGUI = function() {
         return gui;
-    }
+    };
     this.setGUI = function(g) {
 	    this.gui = g;
-    }
+    };
 
     this.getFileIO = function() {
         return fileHandler;
-    }
+    };
 
     this.addNewModel = function () {
-    	var mdl = new MareFrame.DST.Model()
+    	var mdl = new MareFrame.DST.Model();
     	//modelArr.push(mdl);
     	this.setActiveModel(mdl);
     	h.gui.clear();
 		//console.log(mdl)
     	return mdl;
-    }
+    };
 
     this.addModel = function(m) {
         modelArr.push(m);
-    }
+    };
 
     this.closeModel = function(e) {
 
-    }
+    };
 
     this.setActiveModel = function(m) {
     	activeModel = m;
     	//h.gui.importStage();
-    }
+    };
 
     this.getActiveModel = function() {
         return activeModel;
-    }
+    };
 
     
-}
+};
 
 MareFrame.DST.FileIO = function ()
 {
@@ -65,14 +69,14 @@ MareFrame.DST.FileIO = function ()
     this.SaveModel= function (m)
     {
         
-    }
+    };
     
     this.QuickSave = function ()
     {
     	var m = h.getActiveModel();
     	var json = JSON.stringify(m);
     	localStorage.setItem("temp",json);
-    }
+    };
 
     this.QuickLoad = function (model)
     {
@@ -124,8 +128,8 @@ MareFrame.DST.FileIO = function ()
     		
     	//}
 
-    }
-}
+    };
+};
 
 function pause(milliseconds) {
 	var dt = new Date();
@@ -137,7 +141,7 @@ function getUrlParameter(sParam) {
 	var sURLVariables = sPageURL.split('&');
 	for (var i = 0; i < sURLVariables.length; i++) {
 		var sParameterName = sURLVariables[i].split('=');
-		if (sParameterName[0] == sParam) {
+		if (sParameterName[0] === sParam) {
 			return sParameterName[1];
 		}
 	}
@@ -159,26 +163,26 @@ MareFrame.DST.Model = function()
     this.setMainObj=function(obj)
     {
     	mainObjective = obj;
-    }
+    };
     this.getMainObj=function()
     {
     	return mainObjective;
-    }
+    };
 
     this.getDataMatrix = function () {
     	return dataMatrix;
-    }
+    };
 
     this.setDataMatrix = function (mat) {
     	dataMatrix = mat;
-    }
+    };
 
     this.getWeights = function (elmt)
     {
     	var weightsArr = [];
     	
     	//traverse down the tree and store the weights for each attrib, normalized to fraction of 1 each level
-    	if (elmt.getType() != 0) {
+    	if (elmt.getType() !== 0) {
     		var total = 0.0;
     		elmt.getData()[1].forEach(function (val) { total += val; });
     		for (var i = 0; i < elmt.getData()[0].length; i++) {
@@ -193,7 +197,7 @@ MareFrame.DST.Model = function()
     		weightsArr.push([elmt.getData()[0], 1]);
     	}
     	return weightsArr;
-    }
+    };
 
     this.getFinalScore = function () {
     	var tempMatrix = JSON.parse(JSON.stringify(dataMatrix));
@@ -208,7 +212,7 @@ MareFrame.DST.Model = function()
     				currentMax = tempMatrix[j][i + 1];
     			}
     		}
-    		var elmtData = h.getActiveModel().getElement(dataMatrix[0][i+1]).getData()
+    		var elmtData = h.getActiveModel().getElement(dataMatrix[0][i+1]).getData();
     		for(var j=1;j<tempMatrix.length-1;j++)
     		{
 				
@@ -228,7 +232,7 @@ MareFrame.DST.Model = function()
     	
 
     	return tempMatrix;
-    }
+    };
 
 
     function getValueFn(xVal, posX, posY) {
@@ -324,7 +328,7 @@ MareFrame.DST.Model = function()
     			break;
     	}
     	return tempMatrix;
-    }
+    };
 
 
     this.CreateNewElement = function () {
@@ -332,11 +336,11 @@ MareFrame.DST.Model = function()
         elementArr.push(e);
         return e;
 
-    }
+    };
 
     this.getElement = function (id) {
         return elementArr[getElementIndex(id)];
-    }
+    };
 
     function getElementIndex(id) {
         var key = 0;
@@ -354,11 +358,11 @@ MareFrame.DST.Model = function()
     this.getConnections= function()
     {
     	return connectionArr;
-    }
+    };
 
     this.getConnection = function(id) {
 	    return connectionArr[getConnectionIndex(id)];
-    }
+    };
 
     function getConnectionIndex(id) {
     	var key = 0;
@@ -375,7 +379,7 @@ MareFrame.DST.Model = function()
 
     this.getElementArr = function() {
         return elementArr;
-    }
+    };
     
     this.deleteElement = function (id) {
 
@@ -384,17 +388,17 @@ MareFrame.DST.Model = function()
 		
 
 	    elementArr.splice(getElementIndex(id), 1);
-    }
+    };
     
     this.setName = function (n)
     {
         modelName = n;
-    }
+    };
     
     this.getName = function ()
     {
         return modelName;
-    }
+    };
     
     this.addConnection = function(c)
     {
@@ -418,12 +422,12 @@ MareFrame.DST.Model = function()
     	{
     		return false;
     	}
-    }
+    };
 
     this.toJSON = function()
     {
     	return {elements:elementArr , connections:connectionArr , mdlName : modelName, mainObj:mainObjective , dataMat:dataMatrix};
-    }
+    };
 
     this.fromJSON = function(jsonElmt)
     {
@@ -463,8 +467,8 @@ MareFrame.DST.Model = function()
 
     	dataMatrix = jsonElmt.dataMat;
     	h.gui.updateTable(dataMatrix);
-    }
-}
+    };
+};
 
 MareFrame.DST.Element = function ()
 {
@@ -472,56 +476,56 @@ MareFrame.DST.Element = function ()
 	var id = "elmt"+new Date().getTime();
     var name = "Element";
     var description = "write description here";
-    var type = 1
+    var type = 1;
     var weightingMethod = 1;
     var connections = [];
     
     this.getData = function ()
     {
         return data;
-    }
+    };
     this.setData = function (d)
     {
         data = d;
-    }
+    };
     
     this.getID = function() {
 	    return id;
-    }
+    };
     this.setId = function(i) {
 	    id = i;
-    }
+    };
     this.getName = function ()
     {
         return name;
-    }
+    };
     this.setName = function (n)
     {
         name = n;
-    }
+    };
     this.getDescription = function ()
     {
         return description;
-    }
+    };
     this.setDescription = function (d)
     {
         description = d;
-    }
+    };
     this.getType = function ()
     {
         return type;
-    }
+    };
     this.setType = function (t)
     {
         type = t;
-    }
+    };
     this.getMethod = function () {
     	return weightingMethod;
-    }
+    };
 
     this.setMethod = function (i) {
     	weightingMethod = i;
-    }
+    };
 
 
     this.deleteConnection = function (id) {
@@ -539,24 +543,24 @@ MareFrame.DST.Element = function ()
     	connections.splice(key, 1);
 
 
-    }
+    };
     this.deleteAllConnections = function () {
     	connections.forEach(function (c) {
     		c.deleteThis(this.id);
     	});
 
     	connections = [];
-    }
+    };
     this.addConnection = function (e) {
     	connections.push(e);
-    }
+    };
     this.getConnections = function () {
     	return connections;
-    }
+    };
     this.toJSON = function () {
     	
     	return { posX: this.easelElmt.x, posY: this.easelElmt.y, elmtID: this.getID(), elmtName: name, elmtDesc: this.getDescription(), elmtType: this.getType(), elmtData: this.getData(), elmtWghtMthd: this.weightingMethod };
-    }
+    };
     this.fromJSON = function (jsonElmt) {
     	this.easelElmt.x = jsonElmt.posX;
     	this.easelElmt.y = jsonElmt.posY;
@@ -567,9 +571,9 @@ MareFrame.DST.Element = function ()
     	this.setType(jsonElmt.elmtType);
     	this.setData(jsonElmt.elmtData);
     	this.setMethod(jsonElmt.elmtWghtMthd);
-    }
+    };
 
-}
+};
 
 
 
@@ -588,37 +592,37 @@ MareFrame.DST.Connection = function (eIn, eOut)
 	        inputElement.deleteConnection(id);
 
         }
-    }
+    };
 
     this.getID= function()
     {
         return id;
-    }
+    };
 
     this.setID= function(i)
     {
         id = i;
-    }
+    };
            
     this.setInput = function (e)
     {
         inputElement = e;
-    }
+    };
     
     this.setOutput = function (e)
     {
         outputElement = e;
-    }
+    };
     
     this.getInput = function ()
     {
         return inputElement;
-    }
+    };
     
     this.getOutput = function ()
     {
         return outputElement;
-    }
+    };
     
     this.flip = function ()
     {
@@ -628,18 +632,18 @@ MareFrame.DST.Connection = function (eIn, eOut)
 
         inputElement.deleteConnection(id);
         outputElement.addConnection(id);
-    }
+    };
 
     this.toJSON =function()
     {
     	return { connInput: inputElement.getID(), connOutput: outputElement.getID(), connID: id };
-    }
+    };
 
     this.fromJSON = function(jsonElmt)
     {
     	id = jsonElmt.connID;
-    }
-}
+    };
+};
 
 
 //console.log("model name: " + h.getActiveModel().getName());

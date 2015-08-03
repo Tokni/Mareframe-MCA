@@ -1,3 +1,5 @@
+/* global MareFrame, createjs, h, google */
+
 ﻿MareFrame.DST.GUIHandler = function() {
 	var editorMode = false;
 	var canvas = new createjs.Stage("MCATool");
@@ -25,7 +27,7 @@
 
 	canvas.addChild(hitArea);
 	canvas.addChild(stage);
-	valueFnCanvas.addChild(valFnBkGr)
+	valueFnCanvas.addChild(valFnBkGr);
 	valueFnCanvas.addChild(valueFnLineCont);
 	valueFnCanvas.addChild(valueFnStage);
 	valueFnCanvas.addChild(controlP);
@@ -46,9 +48,9 @@
 		vAxis: { minValue: 0 },
 		legend: { position: 'top', maxLines: 3 },
 		bar: { groupWidth: '75%' },
-		animation: { duration: 500, easing: "out", },
+		animation: { duration: 500, easing: "out" },
 		isStacked: true,
-		focusTarget: 'category',
+		focusTarget: 'category'
 
 	};
 	if (editorMode) {
@@ -71,14 +73,14 @@
 		this.setId(i);
 		this.easelElmt.name = i;
 		update = true;
-	}
+	};
 
 	this.setSize = function (x, y) {
 		canvas.canvas.width = x;
 		canvas.canvas.height = y;
 		//$("#MCATool").width(x);
 		//$("#MCATool").height(y);
-	}
+	};
 
 	this.updateElement = function(elmt)
 	{
@@ -96,7 +98,7 @@
 
 		elmt.easelElmt.addChild(rect);
 		elmt.easelElmt.addChild(label);
-	}
+	};
 
 	this.addElementToStage = function() {
 
@@ -125,7 +127,7 @@
 		pause(1);
 		update = true;
 		return elmt;
-	}
+	};
 
 	function dblClick(e)
 	{
@@ -155,7 +157,7 @@
 			height: 400,
 			vAxis: { minValue: 0 },
 			legend: { position: 'none', maxLines: 3 },
-			bar: { groupWidth: '60%' },
+			bar: { groupWidth: '60%' }
 
 		};
 		switch(elmt.getType())
@@ -210,7 +212,7 @@
 								elmt.getData()[1][count] = ui.value;
 								$("#inp_" + id).val(ui.value);
 								h.gui.updateFinalScores();
-							},
+							}
 							 
 						});
 						$("#inp_" + id).val(elmt.getData()[1][count]);
@@ -258,7 +260,7 @@
 						maxVal = tableMat[i][1];
 				}
 				for (var i = 1; i < tableMat.length; i++) {
-					console.log(tableMat[i][1])
+					console.log(tableMat[i][1]);
 					var vertLine = new createjs.Shape(getValueFnLine(tableMat[i][1]/maxVal*100, googleColors[i - 1]));
 
 					valueFnLineCont.addChild(vertLine);
@@ -285,7 +287,7 @@
 
 		//set description
 		document.getElementById("description_div").innerHTML = elmt.getDescription();
-	}
+	};
 
 	function updateValFnCP(cPX,cPY)
 	{
@@ -319,7 +321,7 @@
 
 	function moveValFnCP(e)
 	{
-			elmt = h.getActiveModel().getElement(e.target.name)
+			elmt = h.getActiveModel().getElement(e.target.name);
 			controlP.x = e.stageX;
 			controlP.y = e.stageY;
 			elmt.getData()[1] = e.stageX;
@@ -346,7 +348,7 @@
 		var data = new google.visualization.arrayToDataTable(h.getActiveModel().getFinalScore());
 		data.removeRow(data.getNumberOfRows()-1);
 		finalScoreChart.draw(data, finalScoreChartOptions);
-	}
+	};
 
 	this.updateTable = function(matrix)
 	{
@@ -363,7 +365,7 @@
 				tableHTML = tableHTML + "<td contenteditable=true style=\"padding-right:10px;padding-left:5px;text-align:center;vertical-align:middle\">" + row[i] + "</td>";
 			}
 			tableHTML = tableHTML + "</tr>";
-		})
+		});
 
 		
 		$("#editableDataTable").html(tableHTML);
@@ -374,7 +376,7 @@
 
 
 
-	}
+	};
 
 	function mouseDown(e) {
 		//console.log("mouse down at: ("+e.stageX+","+e.stageY+")");
@@ -403,7 +405,7 @@
 		}
 		//console.log("adding to selection");
 		h.gui.addToSelection(e.target);
-	}
+	};
 
 	function pressMove(e) {
 		//console.log("press move");
@@ -417,7 +419,7 @@
 				elmt.x += e.stageX - oldX;
 				elmt.y += e.stageY - oldY;
 				h.getActiveModel().getElement(elmt.name).getConnections().forEach(function (c) {
-				h.gui.updateConnection(c)
+				h.gui.updateConnection(c);
 				});
 			});
 
@@ -439,24 +441,24 @@
 	{
 		stage.removeAllChildren();
 		update = true;
-	}
+	};
 
 	this.importStage = function() {
 		stage.removeAllChildren();
 		this.importStageElements();
 		this.importStageConnections();
-	} 
+	};
 	this.importStageElements = function() {
 		h.getActiveModel().getElementArr().forEach(function(e) {
 			stage.addChild(e.easelElmt);
 		});
 		update = true;
-	}
+	};
 	this.importStageConnections = function()
 	{
 		//TODO: make this.
 		update = true;
-	}
+	};
 
 	this.connectTo = function (evt)
 	{
@@ -482,7 +484,7 @@
 			h.gui.select(evt);
 		}
 		//this.select(elmtIdent);
-	}
+	};
 
 	this.addConnectionToStage = function(c) {
 		var line = new createjs.Graphics().beginStroke("#0f0f0f").mt(c.getInput().easelElmt.x, c.getInput().easelElmt.y).lt(c.getOutput().easelElmt.x, c.getOutput().easelElmt.y);
@@ -509,7 +511,7 @@
 		c.easelElmt = cont;
 		update = true;
 
-	}
+	};
 
 	this.updateConnection = function (c) {
 		//stage.removeChild(c.easelElmt);
@@ -523,7 +525,7 @@
 		}
 		//stage.addChildAt(c.easelElmt, 0);
 		update = true;
-	}
+	};
 
 		//this.deleteConnection = function (connIdent) {
 		//    canvas.getElementById(connIdent).remove();
@@ -556,16 +558,16 @@
 				e.getChildAt(0).graphics.clear().f(elementColors[type][2]).s(elementColors[type][1]).rr(0, 0, 150, 30, 4);
 				update = true;
 			}
-		}
+		};
 
 		this.setSelection = function (e) {
 			clearSelection();
 			addToSelection(e);
-		}
+		};
 
 		this.getSelected = function () {
 			return selectedItems;
-		}
+		};
 
 		this.clearSelection = function () {
 			console.log(selectedItems);
@@ -576,7 +578,7 @@
 			});
 			selectedItems = [];
 			update = true;
-		}
+		};
 
 
-}
+};
