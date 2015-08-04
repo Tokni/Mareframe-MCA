@@ -349,22 +349,27 @@
 		data.removeRow(data.getNumberOfRows()-1);
 		finalScoreChart.draw(data, finalScoreChartOptions);
 	};
+        
 
 	this.updateTable = function(matrix)
 	{
 		var tableHTML = "";
-		//console.log(matrix);
-		for (var i = 1; i < matrix[0].length; i++)
-		{
-			console.log(matrix[0][i]);
-			matrix[0][i] = h.getActiveModel().getElement(matrix[0][i]).getName();
-		}
+                
+                var topRow = true;
 		matrix.forEach(function (row) {
 			tableHTML = tableHTML + "<tr style=\"border:1px solid black;height:64px\">";
 			for(var i = 1;i<row.length;i++){
-				tableHTML = tableHTML + "<td contenteditable=true style=\"padding-right:10px;padding-left:5px;text-align:center;vertical-align:middle\">" + row[i] + "</td>";
+                            if(topRow)
+                            {
+                                console.log(row[i]);
+                                console.log(h.getActiveModel().getElement(row[i]));
+				tableHTML = tableHTML + "<td contenteditable=true style=\"padding-right:10px;padding-left:5px;text-align:center;vertical-align:middle\">" + h.getActiveModel().getElement(row[i]).getName() + "</td>";
+                            }
+                            else
+                                tableHTML = tableHTML + "<td contenteditable=true style=\"padding-right:10px;padding-left:5px;text-align:center;vertical-align:middle\">" + row[i] + "</td>";
 			}
 			tableHTML = tableHTML + "</tr>";
+                        topRow=false;
 		});
 
 		

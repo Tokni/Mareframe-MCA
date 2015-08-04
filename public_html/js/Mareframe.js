@@ -330,7 +330,6 @@ MareFrame.DST.Model = function()
     	return tempMatrix;
     };
 
-
     this.CreateNewElement = function () {
     	var e = new MareFrame.DST.Element();
         elementArr.push(e);
